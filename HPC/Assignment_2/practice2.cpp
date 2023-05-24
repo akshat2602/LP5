@@ -11,11 +11,10 @@ void sequential_bubble_sort(int arr[], int size)
     {
         array[i] = arr[i];
     }
-
     double start = omp_get_wtime();
     for (int i = 0; i < size - 1; i++)
     {
-        for (int j = 0; j < size - i - 1; j++)
+        for (int j = 0; j < size - 1; j++)
         {
             if (array[j] > array[j + 1])
             {
@@ -24,12 +23,13 @@ void sequential_bubble_sort(int arr[], int size)
         }
     }
     double end = omp_get_wtime();
-    cout << "Sequential Bubble Sort:\n";
-    // for(int i = 0 ; i < size; i++){
-    //     cout << array[i] << " ";
-    // }
+    cout << "Sequential Bubble Sort: ";
+    for (int i = 0; i < size; i++)
+    {
+        cout << array[i] << " ";
+    }
     cout << endl;
-    cout << "Time Required: " << end - start << endl;
+    cout << "Time required: " << end - start << endl;
 }
 
 void parallel_bubble_sort(int arr[], int size)
@@ -42,7 +42,7 @@ void parallel_bubble_sort(int arr[], int size)
     double start = omp_get_wtime();
 
 #pragma omp parallel for
-    for (int i = 0; i < size - 1; i++)
+    for (int i = 0; i < size; i++)
     {
         for (int j = 0; j < size - i - 1; j++)
         {
@@ -54,9 +54,10 @@ void parallel_bubble_sort(int arr[], int size)
     }
     double end = omp_get_wtime();
     cout << "Parallel Bubble Sort:\n";
-    // for(int i = 0 ; i < size; i++){
-    //     cout << array[i] << " ";
-    // }
+    for (int i = 0; i < size; i++)
+    {
+        cout << array[i] << " ";
+    }
     cout << endl;
     cout << "Time Required: " << end - start << endl;
 }
@@ -64,39 +65,42 @@ void parallel_bubble_sort(int arr[], int size)
 void merge(int array[], int low, int mid, int high, int size)
 {
     int temp[size];
-    int i = low;
-    int j = mid + 1;
+    int left = low;
+    int right = mid + 1;
     int k = 0;
-    while ((i <= mid) && (j <= high))
+
+    while ((left < mid + 1) && (right < high + 1))
     {
-        if (array[i] >= array[j])
+        if (array[left] >= array[right])
         {
-            temp[k] = array[j];
+            temp[k] = array[right];
+            right++;
             k++;
-            j++;
         }
         else
         {
-            temp[k] = array[i];
+            temp[k] = array[left];
+            left++;
             k++;
-            i++;
         }
     }
-    while (i <= mid)
+
+    while (left < mid + 1)
     {
-        temp[k] = array[i];
+        temp[k] = array[left];
+        left++;
         k++;
-        i++;
     }
-    while (j <= high)
+
+    while (right < high + 1)
     {
-        temp[k] = array[j];
+        temp[k] = array[right];
+        right++;
         k++;
-        j++;
     }
 
     k = 0;
-    for (int i = low; i <= high; i++)
+    for (int i = low; i < high + 1; i++)
     {
         array[i] = temp[k];
         k++;
@@ -125,9 +129,10 @@ void perform_merge_sort(int arr[], int size)
     mergesort(array, 0, size - 1, size);
     double end = omp_get_wtime();
     cout << "Merge Sort:\n";
-    // for(int i = 0 ; i < size; i++){
-    //     cout << array[i] << " ";
-    // }
+    for (int i = 0; i < size; i++)
+    {
+        cout << array[i] << " ";
+    }
     cout << endl;
     cout << "Time Required: " << end - start << endl;
 }
@@ -159,9 +164,10 @@ void perform_p_merge_sort(int arr[], int size)
     p_mergesort(array, 0, size - 1, size);
     double end = omp_get_wtime();
     cout << "Parallel Merge Sort:\n";
-    // for(int i = 0 ; i < size; i++){
-    //     cout << array[i] << " ";
-    // }
+    for (int i = 0; i < size; i++)
+    {
+        cout << array[i] << " ";
+    }
     cout << endl;
     cout << "Time Required: " << end - start << endl;
 }
